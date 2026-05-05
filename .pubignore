@@ -1,0 +1,13 @@
+# Agent / contributor docs — not part of the consumer-facing package on pub.dev
+CLAUDE.md
+.claude/
+
+# Local tooling outputs (always exclude from the published tarball)
+build/
+.dart_tool/
+
+# Generated API reference (pub.dev builds docs from source; skip local HTML)
+doc/api/
+
+# Xcode / CocoaPods local caches (must never ship on pub.dev)
+**/DerivedData/

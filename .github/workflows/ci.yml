@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    name: Package — format, analyze, test, publish dry-run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          # Pin so `dart format` matches local/dev installs (avoids stable drift).
+          flutter-version: "3.41.0"
+          cache: true
+
+      - name: flutter pub get
+        run: flutter pub get
+
+      # Run format only after resolution — otherwise analysis_options includes fail and
+      # dart format can rewrite sources differently (spurious --set-exit-if-changed).
+      - name: Format (dart format)
+        run: dart format --output=none --set-exit-if-changed lib test
+
+      - name: flutter analyze
+        run: flutter analyze
+
+      - name: flutter test
+        run: flutter test
+
+      - name: dart doc (pub.dev-style link validation)
+        run: dart doc --validate-links
+
+      - name: dart pub publish --dry-run
+        run: dart pub publish --dry-run
+
+  example:
+    name: Example — format, analyze, test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: "3.41.0"
+          cache: true
+
+      - name: flutter pub get
+        working-directory: example
+        run: flutter pub get
+
+      # Same ordering rule as package job — pub get before format.
+      - name: Format example
+        working-directory: example
+        run: dart format --output=none --set-exit-if-changed lib test
+
+      - name: flutter analyze
+        working-directory: example
+        run: flutter analyze
+
+      - name: flutter test
+        working-directory: example
+        run: flutter test
