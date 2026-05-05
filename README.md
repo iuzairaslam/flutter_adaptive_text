@@ -5,24 +5,20 @@
 [![style: flutter lints](https://img.shields.io/badge/style-flutter__lints-blue)](https://pub.dev/packages/flutter_lints)
 [![Flutter](https://img.shields.io/badge/Flutter-3.10%2B-blue?logo=flutter)](https://flutter.dev)
 
-## In plain English
+Ever put text on a colored card and realize it’s **hard to read**, or you keep flipping between white and black by hand? **flutter_adaptive_text** does that thinking for you.
 
-Ever put text on a colored card and realize it’s **hard to read**—or you keep flipping between white and black by hand? **flutter_adaptive_text** does that thinking for you.
-
-You give it the **background color** (and optionally a small list of **brand colors**). It picks a **text color** that stays readable—usually black or white, or whichever brand color scores best. Under the hood it uses the same kind of **contrast math** accessibility guidelines rely on (so you’re not guessing from gut feel alone).
+You give it the **background color** (and optionally a small list of **brand colors**). It picks a **text color** that stays readable, usually black or white, or whichever brand color scores best. Under the hood it uses the same kind of **contrast math** accessibility guidelines rely on (so you’re not guessing from gut feel alone).
 
 You don’t need to be an accessibility expert to use it. If you *are* working toward stricter checks or newer contrast models, the package still has you covered with optional modes and helpers.
 
----
 
 ## Why people reach for it
 
-- **Fewer “oops, can’t read that” moments** on banners, buttons, chips, and colored headers.
-- **Brand-friendly**: you’re not locked to only black and white—you can pass your real palette and let the best option win.
-- **Keeps Flutter simple**: one import, no extra runtime packages—just the Flutter SDK.
-- **Icons and custom widgets too**, not only paragraphs of text—so the whole tile can match.
+* **Fewer “oops, can’t read that” moments** on banners, buttons, chips, and colored headers.
+* **Brand friendly:** you’re not locked to only black and white; you can pass your real palette and let the best option win.
+* **Keeps Flutter simple:** one import, no extra runtime packages, just the Flutter SDK.
+* **Icons and custom widgets too**, not only paragraphs of text, so the whole tile can match.
 
----
 
 ## Try the demo (see it on screen)
 
@@ -34,13 +30,12 @@ flutter pub get
 flutter run
 ```
 
-You’ll get a small sample app that walks through the main ideas—no need to wire anything up first.
+You’ll get a small sample app that walks through the main ideas; no need to wire anything up first.
 
----
 
 ## Use it in your own app
 
-**1.** Add the package in your app’s `pubspec.yaml`:
+**1.** Add the package in your app’s dependency list (the `pubspec` file in your project root):
 
 ```yaml
 dependencies:
@@ -66,7 +61,7 @@ AdaptiveText(
 
 That’s the happy path: the package chooses a foreground that tends to read well on that background.
 
-**Optional—your brand colors instead of only black/white:**
+**Optional: your brand colors instead of only black/white**
 
 ```dart
 AdaptiveText(
@@ -76,7 +71,7 @@ AdaptiveText(
 )
 ```
 
-**Optional—set the background once for a whole section** (titles, subtitles, etc. pick it up automatically):
+**Optional: set the background once for a whole section** (titles, subtitles, and so on pick it up automatically)
 
 ```dart
 AdaptiveTextTheme(
@@ -92,25 +87,22 @@ AdaptiveTextTheme(
 
 You need **Flutter 3.10+** and **Dart 3.0+**.
 
----
 
 ## A note for designers and product folks
 
 This package answers: **“What color should the letters be so people can actually read them?”**  
-It does **not** replace a full design system, pick gradients for you, or read colors out of a photo—it works with **solid colors** you already chose for UI surfaces.
+It does **not** replace a full design system, pick gradients for you, or read colors out of a photo. It works with **solid colors** you already chose for UI surfaces.
 
----
 
 ## Want the full technical map?
 
-Names like **WCAG**, **APCA**, contrast ratios, and every function signature live in the **official API docs** (best for developers and copy-paste reference):
+Names like **WCAG**, **APCA**, contrast ratios, and every function signature live in the **official API docs** (best for developers and copy/paste reference):
 
 [pub.dev documentation for flutter_adaptive_text](https://pub.dev/documentation/flutter_adaptive_text/latest/)
 
----
 
 ## License & source
 
-MIT — see [LICENSE](https://github.com/iuzairaslam/flutter_adaptive_text/blob/main/LICENSE).
+MIT. See [LICENSE](https://github.com/iuzairaslam/flutter_adaptive_text/blob/main/LICENSE).
 
 Repository: [github.com/iuzairaslam/flutter_adaptive_text](https://github.com/iuzairaslam/flutter_adaptive_text)
