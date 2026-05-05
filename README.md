@@ -5,6 +5,8 @@
 [![style: flutter lints](https://img.shields.io/badge/style-flutter__lints-blue)](https://pub.dev/packages/flutter_lints)
 [![Flutter](https://img.shields.io/badge/Flutter-3.10%2B-blue?logo=flutter)](https://flutter.dev)
 
+![Flutter Adaptive Text banner: text color shifts for contrast across a dark and bright background](assets/readme_banner.png)
+
 Ever put text on a colored card and realize it’s **hard to read**, or you keep flipping between white and black by hand? **flutter_adaptive_text** does that thinking for you.
 
 You give it the **background color** (and optionally a small list of **brand colors**). It picks a **text color** that stays readable, usually black or white, or whichever brand color scores best. Under the hood it uses the same kind of **contrast math** accessibility guidelines rely on (so you’re not guessing from gut feel alone).
