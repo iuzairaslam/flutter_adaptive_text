@@ -1,7 +1,7 @@
 # flutter_adaptive_text
 
 [![Pub](https://img.shields.io/pub/v/flutter_adaptive_text.svg)](https://pub.dev/packages/flutter_adaptive_text)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/iuzairaslam/adaptive_text/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/iuzairaslam/flutter_adaptive_text/blob/main/LICENSE)
 [![style: flutter lints](https://img.shields.io/badge/style-flutter__lints-blue)](https://pub.dev/packages/flutter_lints)
 [![Flutter](https://img.shields.io/badge/Flutter-3.10%2B-blue?logo=flutter)](https://flutter.dev)
 
@@ -248,6 +248,6 @@ Full API reference: [pub.dev documentation](https://pub.dev/documentation/flutte
 
 ## License
 
-MIT — see [LICENSE](https://github.com/iuzairaslam/adaptive_text/blob/main/LICENSE).
+MIT — see [LICENSE](https://github.com/iuzairaslam/flutter_adaptive_text/blob/main/LICENSE).
 
-Repository: [github.com/iuzairaslam/adaptive_text](https://github.com/iuzairaslam/adaptive_text)
+Repository: [github.com/iuzairaslam/flutter_adaptive_text](https://github.com/iuzairaslam/flutter_adaptive_text)

@@ -5,10 +5,10 @@ description: >-
   AdaptiveText widget, Color extension, and standalone utility functions.
 version: 1.0.0
 
-homepage: https://github.com/iuzairaslam/adaptive_text
+homepage: https://github.com/iuzairaslam/flutter_adaptive_text
 
-repository: https://github.com/iuzairaslam/adaptive_text
-issue_tracker: https://github.com/iuzairaslam/adaptive_text/issues
+repository: https://github.com/iuzairaslam/flutter_adaptive_text
+issue_tracker: https://github.com/iuzairaslam/flutter_adaptive_text/issues
 
 # API docs: pub.dev hosts generated docs at
 # https://pub.dev/documentation/flutter_adaptive_text/latest/ automatically.
