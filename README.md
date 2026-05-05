@@ -34,21 +34,20 @@ flutter run
 
 You’ll get a small sample app that walks through the main ideas; no need to wire anything up first.
 
-### AdaptiveText widget
-
-![Example app: AdaptiveText widget screen with WCAG badges and background swatches](assets/demo_adaptive_text_widget.png)
-
-### Palette aware
-
-![Example app: palette aware screen picking the best palette color on a dark background](assets/demo_palette_aware.png)
-
-### Color extension API
-
-![Example app: Color extension screen with luminance, contrast ratio, and WCAG flags](assets/demo_color_extension.png)
-
-### APCA algorithm
-
-![Example app: APCA vs WCAG comparison cards and sample AdaptiveText code](assets/demo_apca.png)
+<table>
+  <tr>
+    <th align="center">AdaptiveText widget</th>
+    <th align="center">Palette aware</th>
+    <th align="center">Color extension API</th>
+    <th align="center">APCA algorithm</th>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><img src="assets/demo_adaptive_text_widget.png" alt="AdaptiveText widget: WCAG badges and background swatches" width="200"/></td>
+    <td align="center" valign="top"><img src="assets/demo_palette_aware.png" alt="Palette aware: best palette color on a dark background" width="200"/></td>
+    <td align="center" valign="top"><img src="assets/demo_color_extension.png" alt="Color extension: luminance, contrast, WCAG flags" width="200"/></td>
+    <td align="center" valign="top"><img src="assets/demo_apca.png" alt="APCA: comparison with WCAG and sample code" width="200"/></td>
+  </tr>
+</table>
 
 
 ## Use it in your own app
