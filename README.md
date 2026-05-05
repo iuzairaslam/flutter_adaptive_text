@@ -34,6 +34,22 @@ flutter run
 
 You’ll get a small sample app that walks through the main ideas; no need to wire anything up first.
 
+### AdaptiveText widget
+
+![Example app: AdaptiveText widget screen with WCAG badges and background swatches](assets/demo_adaptive_text_widget.png)
+
+### Palette aware
+
+![Example app: palette aware screen picking the best palette color on a dark background](assets/demo_palette_aware.png)
+
+### Color extension API
+
+![Example app: Color extension screen with luminance, contrast ratio, and WCAG flags](assets/demo_color_extension.png)
+
+### APCA algorithm
+
+![Example app: APCA vs WCAG comparison cards and sample AdaptiveText code](assets/demo_apca.png)
+
 
 ## Use it in your own app
 
