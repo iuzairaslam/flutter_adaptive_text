@@ -1,0 +1,43 @@
+---
+description: Commits and GitHub must use only the human maintainer identity—never Cursor bots or co-author trailers.
+alwaysApply: true
+---
+
+# Git identity and GitHub (strict)
+
+## Never attribute commits to Cursor or bots
+
+- Do **not** run `git commit` with `GIT_AUTHOR_*`, `GIT_COMMITTER_*`, `-c user.name`, `-c user.email`, or `--author=…` unless the **human** has pasted the exact author line themselves for a one-off legal requirement.
+- Do **not** append `Co-authored-by:` / `Signed-off-by:` lines for Cursor, `cursoragent`, `@cursor.*`, or other bots. If the IDE injects a `Co-authored-by:` line, **remove it** before finishing the commit (this repo’s `prepare-commit-msg` hook also strips Cursor-style co-author lines automatically).
+- If `git config user.name` / `user.email` is unset in this repo, **stop** and tell the human to set them; do not invent placeholder identities.
+
+### Optional (Cursor app)
+
+In **Cursor → Settings → Git**, turn off any option that adds **Co-authored-by** / **Generated with Cursor** to commits if you want the message file untouched.
+
+## Preferred local setup (human only)
+
+In this repository (or globally), the human should run:
+
+```bash
+git config user.name "YOUR NAME"
+git config user.email "YOUR_EMAIL"
+git config core.hooksPath .githooks
+```
+
+Hooks in `.githooks/`:
+
+- **`prepare-commit-msg`** — removes `Co-authored-by:` lines that reference Cursor / `@cursor.*` so GitHub does not list the bot as a contributor from trailers.
+- **`pre-commit`** — refuses commits if `user.name` / `user.email` look empty or like a Cursor/bot identity.
+
+## GitHub: remove Cursor from collaborators (human does this in the browser)
+
+1. Open the repo on GitHub → **Settings** → **Collaborators** (or **Collaborators and teams**).
+2. Remove **`cursoragent`**, **`Cursor Agent`**, or any Cursor automation account from the list.
+3. If a bot was added via **GitHub Apps** or **Actions** tokens, review **Settings → Integrations** / installed apps and revoke unnecessary access.
+
+The agent must **not** invite Cursor or third-party bots as collaborators.
+
+## If the user asks to “fix” old commits on GitHub
+
+Rewriting author history (`git rebase` / `git filter-repo`) and **force-push** changes SHAs and affects everyone who cloned the repo—only do it when the human explicitly requests it and understands the tradeoff.

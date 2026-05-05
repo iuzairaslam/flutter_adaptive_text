@@ -1,0 +1,13 @@
+#!/bin/sh
+# Cursor often appends Co-authored-by for its agent. Strip those lines so only
+# the human author appears on GitHub (does not change author/committer).
+MSG=$1
+[ -n "$MSG" ] && [ -f "$MSG" ] || exit 0
+tmp=$(mktemp "${TMPDIR:-/tmp}/git-msg.XXXXXX") || exit 0
+# Drop co-author lines that reference Cursor / @cursor.* (case-insensitive).
+if grep -viE '^Co-authored-by:.*(cursoragent|@cursor\.|cursor\.com|\bcursor agent\b)' "$MSG" >"$tmp" 2>/dev/null; then
+  mv "$tmp" "$MSG"
+else
+  rm -f "$tmp"
+fi
+exit 0

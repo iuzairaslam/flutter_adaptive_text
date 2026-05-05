@@ -1,0 +1,18 @@
+#!/bin/sh
+# Reject commits when git identity looks like Cursor / automation (local hook).
+set -e
+name=$(git config user.name || true)
+email=$(git config user.email || true)
+case "$(printf '%s' "$email" | tr '[:upper:]' '[:lower:]')" in
+  *cursor*|"")
+    printf '%s\n' "git hook: refusing commit — set a real human user.email (not Cursor/automation). Current: ${email:-<empty>}" >&2
+    exit 1
+    ;;
+esac
+case "$(printf '%s' "$name" | tr '[:upper:]' '[:lower:]')" in
+  *cursor*agent*|*"cursor agent"*|cursoragent|"")
+    printf '%s\n' "git hook: refusing commit — set a real human user.name. Current: ${name:-<empty>}" >&2
+    exit 1
+    ;;
+esac
+exit 0
