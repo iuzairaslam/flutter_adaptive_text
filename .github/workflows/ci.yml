@@ -42,7 +42,9 @@ jobs:
         run: flutter test
 
       - name: dart doc (pub.dev-style link validation)
-        run: dart doc --validate-links
+        run: |
+          rm -rf doc/api
+          dart doc --validate-links
 
       - name: dart pub publish --dry-run
         run: dart pub publish --dry-run

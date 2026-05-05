@@ -1,6 +1,6 @@
 {
-    "name": "adaptive_text_example",
-    "short_name": "adaptive_text_example",
+    "name": "flutter_adaptive_text_example",
+    "short_name": "flutter_adaptive_text_example",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

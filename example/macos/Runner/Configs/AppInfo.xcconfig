@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = adaptive_text_example
+PRODUCT_NAME = flutter_adaptive_text_example
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.adaptivetext.adaptiveTextExample
+PRODUCT_BUNDLE_IDENTIFIER = com.example.flutteradaptivetext.flutterAdaptiveTextExample
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2026 com.example.adaptive_text. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 com.example.flutter_adaptive_text. All rights reserved.

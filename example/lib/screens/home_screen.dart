@@ -1,4 +1,4 @@
-import 'package:adaptive_text/adaptive_text.dart';
+import 'package:flutter_adaptive_text/flutter_adaptive_text.dart';
 import 'package:flutter/material.dart';
 
 import 'apca_demo_screen.dart';
@@ -24,13 +24,15 @@ class HomeScreen extends StatelessWidget {
   static const _demos = [
     _DemoEntry(
       title: 'AdaptiveText Widget',
-      subtitle: 'Drop-in Text replacement. Auto black or white on any background.',
+      subtitle:
+          'Drop-in Text replacement. Auto black or white on any background.',
       icon: Icons.text_fields_rounded,
       color: Color(0xFF1A237E),
     ),
     _DemoEntry(
       title: 'Palette-Aware',
-      subtitle: 'Pick the highest-contrast color from your design system palette.',
+      subtitle:
+          'Pick the highest-contrast color from your design system palette.',
       icon: Icons.palette_rounded,
       color: Color(0xFF1B5E20),
     ),
@@ -95,7 +97,7 @@ class HomeScreen extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         const Text(
-          'adaptive_text',
+          'flutter_adaptive_text',
           style: TextStyle(
             color: Colors.white,
             fontSize: 36,
@@ -114,12 +116,12 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        Row(
+        const Row(
           children: [
             _Pill(label: 'WCAG 2.1'),
-            const SizedBox(width: 8),
+            SizedBox(width: 8),
             _Pill(label: 'APCA'),
-            const SizedBox(width: 8),
+            SizedBox(width: 8),
             _Pill(label: 'Zero deps'),
           ],
         ),
@@ -131,7 +133,7 @@ class HomeScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _SectionLabel(label: 'ADAPTS TO ANY BACKGROUND'),
+        const _SectionLabel(label: 'ADAPTS TO ANY BACKGROUND'),
         const SizedBox(height: 14),
         _buildTileRow(_darkTiles),
         const SizedBox(height: 8),
@@ -179,7 +181,7 @@ class HomeScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _SectionLabel(label: 'DEMOS'),
+        const _SectionLabel(label: 'DEMOS'),
         const SizedBox(height: 14),
         ...List.generate(_demos.length, (i) {
           return Padding(

@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example.adaptive_text" "\0"
-            VALUE "FileDescription", "adaptive_text_example" "\0"
+            VALUE "CompanyName", "com.example.flutter_adaptive_text" "\0"
+            VALUE "FileDescription", "flutter_adaptive_text_example" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "adaptive_text_example" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.example.adaptive_text. All rights reserved." "\0"
-            VALUE "OriginalFilename", "adaptive_text_example.exe" "\0"
-            VALUE "ProductName", "adaptive_text_example" "\0"
+            VALUE "InternalName", "flutter_adaptive_text_example" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 com.example.flutter_adaptive_text. All rights reserved." "\0"
+            VALUE "OriginalFilename", "flutter_adaptive_text_example.exe" "\0"
+            VALUE "ProductName", "flutter_adaptive_text_example" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

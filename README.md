@@ -1,252 +1,253 @@
-# adaptive_text
+# flutter_adaptive_text
 
-**Flutter Package · v1.0.0 · [pub.dev](https://pub.dev/packages/adaptive_text)**  
-[![Pub](https://img.shields.io/pub/v/adaptive_text.svg)](https://pub.dev/packages/adaptive_text)
+[![Pub](https://img.shields.io/pub/v/flutter_adaptive_text.svg)](https://pub.dev/packages/flutter_adaptive_text)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/iuzairaslam/adaptive_text/blob/main/LICENSE)
 [![style: flutter lints](https://img.shields.io/badge/style-flutter__lints-blue)](https://pub.dev/packages/flutter_lints)
 [![Flutter](https://img.shields.io/badge/Flutter-3.10%2B-blue?logo=flutter)](https://flutter.dev)
 
-| Constraint | Detail |
-| --- | --- |
-| Flutter | 3.10+ |
-| Contrast | WCAG 2.1 AA / AAA |
-| Optional | APCA (WCAG 3.0 proposal) |
-| Dependencies | **Zero** pub packages — Flutter SDK only |
-| License | MIT |
+A Flutter package that picks a **legible text color** from a **background color**—black, white, or the best match from **your palette**—using **WCAG 2.1** contrast math, with optional **APCA** (WCAG 3.0–style perceptual contrast).
 
----
+📐 **WCAG 2.1** — relative luminance via [`Color.computeLuminance`](https://api.flutter.dev/flutter/dart-ui/Color/computeLuminance.html), contrast ratio, AA (4.5:1) / AAA (7:1) checks  
+🎯 **Black / white fallback** — luminance threshold **0.179** so the auto pair stays **≥ 4.5:1** on typical sRGB backgrounds  
+🎨 **Palette-aware** — pass brand colors; the highest-scoring candidate wins (order breaks ties)  
+🔬 **APCA opt-in** — `ContrastAlgorithm.apca` for Lc-based scoring where you want perceptual contrast  
+🧩 **Drop-in `AdaptiveText`** — same API surface as `Text`; explicit `TextStyle.color` always wins  
+🌳 **`AdaptiveTextTheme`** — `InheritedWidget` (no extra pub deps) propagates background, palette, and algorithm  
+🔌 **`Color` extensions** — `adaptiveTextColor`, `adaptiveTextColorFrom`, luminance, contrast helpers  
+📍 **`BuildContext` helpers** — `adaptiveForegroundColor()` for icons and custom widgets  
+📦 **SDK-only runtime** — depends on `flutter` only; no third-party packages at runtime  
+🧪 **Example app** — widget, palette, extension, and APCA demos under `example/`
 
-## 1. Overview
+## Demo
 
-`adaptive_text` is a Flutter package that automatically selects the most legible text color given any background color. Instead of hard-coding white or black text, developers pass a background `Color` and the package returns the correct foreground — black, white, or the best match from a custom design-system palette — using WCAG 2.1 contrast mathematics.
-
-The package exists because many ecosystem options are abandoned (4+ years old), support only pure black/white with no palette, or are bundled inside a larger framework. **adaptive_text** is a standalone, zero-dependency, TypeScript-first-quality Dart library.
-
----
-
-## 2. Scope
-
-### What it does
-
-- Accepts any background `Color` and returns a legible text `Color`.
-- **Black / white** auto-selection via the WCAG 2.1 luminance formula — **always ≥ 4.5:1** contrast ratio for that fallback pair.
-- **Palette-aware** selection — pass brand colors; the highest-contrast candidate wins.
-- **WCAG 2.1 AA** (4.5:1) and **AAA** (7:1) compliance checking.
-- **APCA** support — perceptual contrast model proposed for WCAG 3.0.
-- Drop-in **`AdaptiveText`** widget replacing Flutter’s `Text`.
-- **`AdaptiveTextTheme`** (`InheritedWidget`) to propagate background (and optional palette / algorithm) down a subtree.
-- **`AdaptiveColorExtension`** on **`Color`**: `.adaptiveTextColor`, `.adaptiveTextColorFrom`, `.isLight`, `.isDark`, `.relativeLuminance`, `.contrastRatioWith`, `.meetsWcagWith`, `.apcaContrastOn`.
-- **`BuildContext`** extension: **`adaptiveForegroundColor(...)`** and **`adaptiveTextTheme`** for icons / custom widgets without wrapping everything in **`AdaptiveText`**.
-
-### What it does **not** do
-
-- Does not generate full color palettes or design tokens.
-- Does not handle animated backgrounds by itself — pass a new background when the color changes.
-- Does not wire into `ThemeData` automatically; use `AdaptiveText` / `AdaptiveTextTheme` explicitly.
-- Does not sample **images** — only solid `Color` values.
-
----
-
-## 3. Core algorithm
-
-The implementation follows [WCAG 2.1 relative luminance and contrast](https://www.w3.org/TR/WCAG21/#dfn-relative-luminance).
-
-| Step | Operation | Detail |
-| --- | --- | --- |
-| 1 | Normalize channels | \(c \le 0.03928 \rightarrow c/12.92\) else \(((c+0.055)/1.055)^{2.4}\) |
-| 2 | Relative luminance | \(L = 0.2126 R + 0.7152 G + 0.0722 B\) |
-| 3 | Contrast ratio | \((L_{\mathrm{lighter}} + 0.05) / (L_{\mathrm{darker}} + 0.05)\) |
-| 4 | Pick candidate | Highest ratio among palette candidates; fallback black vs white using threshold **L > 0.179** |
-
-The **0.179** threshold is the WCAG 2.1 crossover point for black vs white: it **guarantees ≥ 4.5:1** for both choices across sRGB (stress-tested; worst case around **4.58:1**).
-
----
-
-## 4. Public API
-
-### Functions
-
-| Function | Returns | Description |
-| --- | --- | --- |
-| `getAdaptiveColor(bg, {palette?, algorithm?})` | `Color` | Main entry point — best text color. |
-| `getContrastRatio(fg, bg)` | `double` | WCAG ratio \[1–21\]. AA needs ≥ 4.5. |
-| `getLuminance(color)` | `double` | WCAG relative luminance \[0–1\]. |
-| `isLight(color)` / `isDark(color)` | `bool` | Brightness via **0.179** threshold. |
-| `meetsWcag(fg, bg, {level?})` | `bool` | AA (4.5:1) or AAA (7:1). |
-| `getApcaContrast(text, bg)` | `double` | APCA **Lc**; \(\|Lc\| \ge 60\) is a common readability target. |
-| `wcagContrastRatioFromLuminance(lumA, lumB)` | `double` | WCAG ratio from two luminances — skips recomputing **shared** background luminance when scoring many candidates. |
-
-Also exported: `wcagMinimumRatio`, `ContrastAlgorithm`, `WcagLevel`.
-
-### Widgets & theme
-
-| Widget / class | Purpose |
-| --- | --- |
-| **`AdaptiveText`** | Drop-in `Text` replacement. Takes `backgroundColor` or inherits from theme. All standard `Text` arguments pass through. **`style.color` overrides** adaptive resolution. |
-| **`AdaptiveTextTheme`** | Wrap a subtree to propagate `backgroundColor`, optional `palette`, and `algorithm`. Not a `const` constructor (theme data is cached once per instance). |
-
-**`AdaptiveTextThemeData`** — immutable data: `backgroundColor`, `palette?`, `algorithm`. Resolve with `AdaptiveTextTheme.of(context)` or `.maybeOf(context)`.
-
-Descendant **`AdaptiveText`** widgets inherit **`palette`** and **`algorithm`** when their own arguments are omitted (`algorithm` is `ContrastAlgorithm?`; `null` means “use theme / default WCAG”).
-
-### `BuildContext` helpers (`AdaptiveTextBuildContext`)
-
-| Member | Description |
-| --- | --- |
-| `context.adaptiveTextTheme` | Same as `AdaptiveTextTheme.maybeOf(context)`. |
-| `context.adaptiveForegroundColor({backgroundColor?, palette?, algorithm?})` | Same resolution rules as **`AdaptiveText`** — merges overrides with inherited theme. |
-
-### `AdaptiveColorExtension` on `Color`
-
-| Extension | Returns | Description |
-| --- | --- | --- |
-| `.adaptiveTextColor` | `Color` | Best black/white for **this** background. |
-| `.adaptiveTextColorFrom(palette, {algorithm?})` | `Color` | Best palette color for **this** background. |
-| `.isLight` / `.isDark` | `bool` | WCAG luminance threshold **0.179**. |
-| `.relativeLuminance` | `double` | WCAG luminance \[0–1\]. |
-| `.contrastRatioWith(other)` | `double` | WCAG contrast vs `other`. |
-| `.meetsWcagWith(other, {level?})` | `bool` | AA or AAA pair check. |
-| `.apcaContrastOn(bg)` | `double` | APCA **Lc** vs `bg`. |
-
-### Enums
-
-```dart
-enum ContrastAlgorithm { wcag, apca }
-enum WcagLevel { aa, aaa } // AA = 4.5:1, AAA = 7:1
-```
-
----
-
-## 5. Usage patterns
-
-### Pattern A — Basic widget
-
-```dart
-AdaptiveText('Hello', backgroundColor: Colors.indigo[900]!)
-```
-
-Example outcome: **white** text (low luminance background → light text; strong contrast ratio).
-
-### Pattern B — Palette-aware
-
-```dart
-AdaptiveText(
-  'Hello',
-  backgroundColor: myBg,
-  palette: [Colors.orange, brandBlue, Colors.white],
-)
-```
-
-Whichever candidate has the **highest** contrast against `myBg` wins.
-
-### Pattern C — Subtree theme
-
-```dart
-AdaptiveTextTheme(
-  backgroundColor: dynamicBg,
-  palette: brandPalette, // optional — inherited by descendants
-  algorithm: ContrastAlgorithm.apca, // optional
-  child: Column(
-    children: const [
-      AdaptiveText('Title'),
-      AdaptiveText('Body'),
-    ],
-  ),
-)
-```
-
-Set background **once**; **`palette`** / **`algorithm`** propagate the same way when child **`AdaptiveText`** omits them.
-
-### Pattern D — Color extension (no wrapper widget)
-
-```dart
-Text('Hi', style: TextStyle(color: myBg.adaptiveTextColor))
-```
-
-Use when you only need the `Color`, not `AdaptiveText`.
-
-### Pattern E — APCA (opt-in)
-
-```dart
-AdaptiveText(
-  'Hi',
-  backgroundColor: myBg,
-  algorithm: ContrastAlgorithm.apca,
-)
-```
-
-Or: `getAdaptiveColor(myBg, algorithm: ContrastAlgorithm.apca)`.
-
-Inside **`AdaptiveTextTheme`**, omit **`algorithm`** on **`AdaptiveText`** to inherit APCA from the theme.
-
-### Pattern F — `BuildContext` (icons & custom paint)
-
-```dart
-AdaptiveTextTheme(
-  backgroundColor: cardBg,
-  palette: const [Colors.indigo, Colors.white],
-  child: Builder(
-    builder: (ctx) => Icon(
-      Icons.star_rounded,
-      color: ctx.adaptiveForegroundColor(),
-    ),
-  ),
-)
-```
-
----
-
-## 6. Package structure
-
-| Path | Purpose |
-| --- | --- |
-| `lib/adaptive_text.dart` | Barrel export — single import for consumers. |
-| `lib/src/algorithm.dart` | Pure math: luminance, contrast ratio, APCA, palette picker. |
-| `lib/src/extensions.dart` | `AdaptiveColorExtension` on `Color`. |
-| `lib/src/context_extension.dart` | `BuildContext` helpers (`adaptiveForegroundColor`, `adaptiveTextTheme`). |
-| `lib/src/adaptive_text_widget.dart` | `AdaptiveText` widget. |
-| `lib/src/adaptive_text_theme.dart` | `AdaptiveTextTheme` + `AdaptiveTextThemeData`. |
-| `test/adaptive_text_test.dart` | **30+** unit & widget tests (algorithm, extensions, widgets, theme). |
-| `example/lib/main.dart` | Demo app entry. |
-| `example/lib/screens/` | Demos: **home**, **widget**, **palette**, **extension**, **APCA**. |
-| `.github/workflows/ci.yml` | CI: format, analyze, test, **`dart pub publish --dry-run`**. |
-
----
-
-## Example app
-
-Multi-platform **`example/`** (mobile, web, desktop):
+Run the bundled example:
 
 ```bash
 cd example
 flutter pub get
 flutter run
-# Desktop: flutter run -d macos    # or windows / linux
 ```
 
----
+Use **`-d chrome`**, **`-d macos`**, etc., for other targets. Screens cover home, widget usage, palette selection, extensions, and APCA.
+
+## Table of contents
+
+- [Demo](#demo)
+- [Installation](#installation)
+- [Quick start](#quick-start)
+- [`AdaptiveText`](#adaptivetext)
+- [`AdaptiveTextTheme`](#adaptivetexttheme)
+- [Pure functions (`algorithm`)](#pure-functions-algorithm)
+- [`Color` extensions](#color-extensions)
+- [`BuildContext` (icons & custom widgets)](#buildcontext-icons--custom-widgets)
+- [WCAG vs APCA](#wcag-vs-apca)
+- [API reference summary](#api-reference-summary)
+- [License](#license)
 
 ## Installation
 
+Add to your `pubspec.yaml`:
+
 ```yaml
 dependencies:
-  adaptive_text: ^1.0.0
+  flutter_adaptive_text: ^1.0.0
 ```
+
+Then:
+
+```bash
+flutter pub get
+```
+
+Import the single public library:
 
 ```dart
-import 'package:adaptive_text/adaptive_text.dart';
+import 'package:flutter_adaptive_text/flutter_adaptive_text.dart';
 ```
 
-**Publish:** `dart pub publish` (after tests and `dart pub publish --dry-run`).
+Requires **Flutter ≥ 3.10** and **Dart ≥ 3.0**.
 
----
+## Quick start
 
-## Repository
+**One widget — explicit background**
 
-[github.com/iuzairaslam/adaptive_text](https://github.com/iuzairaslam/adaptive_text)
+```dart
+AdaptiveText(
+  'Hello',
+  backgroundColor: Colors.indigo.shade900,
+)
+```
 
----
+**Palette — best color from your design tokens**
+
+```dart
+AdaptiveText(
+  'Sale ends today',
+  backgroundColor: brandSurface,
+  palette: const [Color(0xFFFF6B00), Color(0xFF1E3A5F), Colors.white],
+)
+```
+
+**Subtree defaults — set background once**
+
+```dart
+AdaptiveTextTheme(
+  backgroundColor: cardColor,
+  palette: const [Colors.indigo, Colors.white],
+  child: const Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      AdaptiveText('Title'),
+      AdaptiveText('Subtitle'),
+    ],
+  ),
+)
+```
+
+**Plain `Text` — extension only**
+
+```dart
+Text(
+  'Hello',
+  style: TextStyle(color: Colors.indigo.shade900.adaptiveTextColor),
+)
+```
+
+**Raw color (no widget)**
+
+```dart
+final fg = getAdaptiveColor(Colors.indigo.shade900);
+final fgPalette = getAdaptiveColor(
+  Colors.indigo.shade900,
+  palette: const [Colors.amber, Colors.white],
+);
+```
+
+**APCA instead of WCAG ratio**
+
+```dart
+AdaptiveText(
+  'APCA mode',
+  backgroundColor: surface,
+  algorithm: ContrastAlgorithm.apca,
+)
+```
+
+## `AdaptiveText`
+
+Drop-in replacement for [`Text`](https://api.flutter.dev/flutter/widgets/Text-class.html). Forwards the usual `Text` arguments (`style`, `textAlign`, `maxLines`, …).
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `data` | `String` | Text to display. |
+| `backgroundColor` | `Color?` | Background to score against. If `null`, resolved from [`AdaptiveTextTheme`](#adaptivetexttheme). |
+| `palette` | `List<Color>?` | Candidate text colors; best contrast wins. `null` → black/white. Empty list → same as black/white fallback. |
+| `algorithm` | `ContrastAlgorithm?` | `wcag` (default) or `apca`. `null` → inherit from theme, else WCAG. |
+| `style` | `TextStyle?` | If `style.color` is set, that color is used and adaptive resolution is skipped. |
+
+```dart
+const AdaptiveText(
+  'Read me',
+  backgroundColor: Color(0xFF0D47A1),
+);
+```
+
+## `AdaptiveTextTheme`
+
+Wrap a subtree to provide default `backgroundColor`, optional `palette`, and optional `algorithm`. Implemented with [`InheritedWidget`](https://api.flutter.dev/flutter/widgets/InheritedWidget-class.html)—no Provider or similar.
+
+| Class / member | Description |
+| --- | --- |
+| `AdaptiveTextTheme(...)` | Constructor: `backgroundColor`, optional `palette`, optional `algorithm`, required `child`. |
+| `AdaptiveTextThemeData` | Immutable: `backgroundColor`, `palette?`, `algorithm`. |
+| `AdaptiveTextTheme.of(context)` | Throws if no ancestor theme. |
+| `AdaptiveTextTheme.maybeOf(context)` | `null` if missing. |
+
+Child `AdaptiveText` widgets read missing `backgroundColor` / `palette` / `algorithm` from the nearest theme.
+
+## Pure functions (`algorithm`)
+
+| Function | Returns | Description |
+| --- | --- | --- |
+| `getAdaptiveColor(bg, {palette, algorithm})` | `Color` | Best foreground for `bg`. |
+| `getLuminance(color)` | `double` | WCAG relative luminance **0.0–1.0** (delegates to `color.computeLuminance()`). |
+| `getContrastRatio(fg, bg)` | `double` | WCAG contrast ratio **1.0–21.0**. |
+| `wcagContrastRatioFromLuminance(lumA, lumB)` | `double` | Ratio from two luminances (handy when scoring many candidates on one `bg`). |
+| `isLight` / `isDark` | `bool` | `getLuminance(c) > 0.179` — **not** the same rule as `ThemeData.estimateBrightnessForColor`. |
+| `meetsWcag(fg, bg, {level})` | `bool` | AA (4.5:1) or AAA (7:1). |
+| `getApcaContrast(text, bg)` | `double` | APCA **Lc** (signed); larger absolute Lc → stronger perceived contrast. |
+| `wcagMinimumRatio(level)` | `double` | Threshold for AA or AAA. |
+
+Enums: `ContrastAlgorithm { wcag, apca }`, `WcagLevel { aa, aaa }`.
+
+## `Color` extensions
+
+`AdaptiveColorExtension` on `Color`:
+
+| Getter / method | Returns | Description |
+| --- | --- | --- |
+| `adaptiveTextColor` | `Color` | Best black or white for this color as background. |
+| `adaptiveTextColorFrom(palette, {algorithm})` | `Color` | Best palette entry for this background. |
+| `isLight` / `isDark` | `bool` | Luminance vs **0.179**. |
+| `relativeLuminance` | `double` | Same as `getLuminance(this)`. |
+| `contrastRatioWith(other)` | `double` | WCAG ratio vs `other`. |
+| `meetsWcagWith(other, {level})` | `bool` | Pair check. |
+| `apcaContrastOn(bg)` | `double` | APCA Lc vs `bg`. |
+
+## `BuildContext` (icons & custom widgets)
+
+Import is included in `package:flutter_adaptive_text/flutter_adaptive_text.dart`.
+
+| Member | Description |
+| --- | --- |
+| `context.adaptiveTextTheme` | `AdaptiveTextThemeData?` — same as `AdaptiveTextTheme.maybeOf`. |
+| `context.adaptiveForegroundColor({backgroundColor, palette, algorithm})` | Resolves a foreground `Color` like `AdaptiveText`, merging overrides with inherited theme. |
+
+```dart
+AdaptiveTextTheme(
+  backgroundColor: tileColor,
+  child: Builder(
+    builder: (context) => Icon(
+      Icons.check_circle,
+      color: context.adaptiveForegroundColor(),
+    ),
+  ),
+)
+```
+
+## WCAG vs APCA
+
+| | WCAG 2.1 (default) | APCA (`ContrastAlgorithm.apca`) |
+| --- | --- | --- |
+| Metric | Contrast ratio **1–21** | **Lc** (perceptual, signed) |
+| Selection in `getAdaptiveColor` | Maximize ratio | Maximize absolute `getApcaContrast` Lc |
+| Typical readability | AA: ratio **≥ 4.5** | Often **Lc magnitude ≥ 60** as a rough target (context-dependent) |
+
+Use WCAG for alignment with WCAG 2.x audits; use APCA when you standardize on WCAG 3.0–style tooling.
+
+## API reference summary
+
+**Widgets**
+
+| Widget | Role |
+| --- | --- |
+| `AdaptiveText` | `Text` with adaptive `Color` from `backgroundColor` / theme / palette / algorithm. |
+| `AdaptiveTextTheme` | Supplies defaults via `InheritedWidget`. |
+
+**Theme data**
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `backgroundColor` | `Color` | Required for meaningful defaults. |
+| `palette` | `List<Color>?` | Optional inherited candidates. |
+| `algorithm` | `ContrastAlgorithm` | Default `wcag`. |
+
+**Extension summary** — see [`Color` extensions](#color-extensions) table above.
+
+Full API reference: [pub.dev documentation](https://pub.dev/documentation/flutter_adaptive_text/latest/).
 
 ## License
 
 MIT — see [LICENSE](https://github.com/iuzairaslam/adaptive_text/blob/main/LICENSE).
+
+Repository: [github.com/iuzairaslam/adaptive_text](https://github.com/iuzairaslam/adaptive_text)

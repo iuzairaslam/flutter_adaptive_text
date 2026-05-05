@@ -9,7 +9,7 @@ class AdaptiveTextExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'adaptive_text Demo',
+      title: 'flutter_adaptive_text Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,

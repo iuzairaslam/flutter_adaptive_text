@@ -1,4 +1,4 @@
-/// adaptive_text — Automatically adaptive text color for Flutter.
+/// flutter_adaptive_text — Automatically adaptive text color for Flutter.
 ///
 /// Given any background color, this package selects a legible foreground
 /// text color. Supports:
@@ -9,7 +9,7 @@
 /// ## Quick start
 ///
 /// ```dart
-/// import 'package:adaptive_text/adaptive_text.dart';
+/// import 'package:flutter_adaptive_text/flutter_adaptive_text.dart';
 ///
 /// // Drop-in widget
 /// AdaptiveText('Hello', backgroundColor: Colors.indigo[900]!);

@@ -1,4 +1,4 @@
-import 'package:adaptive_text/adaptive_text.dart';
+import 'package:flutter_adaptive_text/flutter_adaptive_text.dart';
 import 'package:flutter/material.dart';
 
 class WidgetDemoScreen extends StatefulWidget {
@@ -67,7 +67,10 @@ class _WidgetDemoScreenState extends State<WidgetDemoScreen> {
                 children: [
                   AdaptiveText('Heading',
                       backgroundColor: _bg,
-                      style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800, height: 1.2)),
+                      style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w800,
+                          height: 1.2)),
                   const SizedBox(height: 6),
                   AdaptiveText('Body text — always legible on any background.',
                       backgroundColor: _bg,
@@ -98,7 +101,8 @@ class _WidgetDemoScreenState extends State<WidgetDemoScreen> {
                     children: [
                       AdaptiveText(
                         'Set backgroundColor once on the theme.',
-                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                            fontSize: 13, fontWeight: FontWeight.w700),
                       ),
                       SizedBox(height: 4),
                       AdaptiveText(
@@ -157,7 +161,8 @@ class _WidgetDemoScreenState extends State<WidgetDemoScreen> {
     );
   }
 
-  Widget _buildShowcase(Color textColor, double ratio, bool meetsAa, bool meetsAaa) {
+  Widget _buildShowcase(
+      Color textColor, double ratio, bool meetsAa, bool meetsAaa) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -183,7 +188,8 @@ class _WidgetDemoScreenState extends State<WidgetDemoScreen> {
     );
   }
 
-  Widget _buildContrastBadge(Color textColor, double ratio, bool meetsAa, bool meetsAaa) {
+  Widget _buildContrastBadge(
+      Color textColor, double ratio, bool meetsAa, bool meetsAaa) {
     return Wrap(
       spacing: 8,
       runSpacing: 8,

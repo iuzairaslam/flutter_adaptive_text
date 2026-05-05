@@ -1,5 +1,6 @@
 ## 1.0.0
 
+- **Package name:** Published as **`flutter_adaptive_text`** — import `package:flutter_adaptive_text/flutter_adaptive_text.dart` (pub.dev: [`flutter_adaptive_text`](https://pub.dev/packages/flutter_adaptive_text)).
 - **Overview:** Legible text color from any solid background — WCAG 2.1 math, optional APCA, zero runtime pub dependencies (Flutter SDK only). Flutter **3.10+**, Dart **3.0+**.
 - **API:** `getAdaptiveColor`, `getContrastRatio`, `getLuminance`, `isLight` / `isDark`, `meetsWcag`, `getApcaContrast`, `wcagMinimumRatio`, `wcagContrastRatioFromLuminance`; enums `ContrastAlgorithm`, `WcagLevel`.
 - **`AdaptiveText`:** Drop-in `Text` replacement; inherits **`palette`** and **`algorithm`** from **`AdaptiveTextTheme`** when omitted (`algorithm` is `ContrastAlgorithm?`; `null` → theme / WCAG).

@@ -1,4 +1,5 @@
-// WCAG/APCA math assumes 8-bit sRGB channels via [Color.red]/[Color.green]/[Color.blue].
+// WCAG luminance uses [Color.computeLuminance]. APCA still reads 8-bit-style
+// channels via [Color.red]/[Color.green]/[Color.blue].
 // ignore_for_file: deprecated_member_use
 
 import 'dart:math';
@@ -28,20 +29,16 @@ enum WcagLevel {
 // WCAG 2.1 luminance helpers
 // ---------------------------------------------------------------------------
 
-/// Converts a single 8-bit sRGB channel (0–255) to its linearized value.
-double _linearizeChannel(int channel) {
-  final c = channel / 255.0;
-  return c <= 0.03928 ? c / 12.92 : pow((c + 0.055) / 1.055, 2.4).toDouble();
-}
-
-/// Computes the WCAG 2.1 relative luminance of [color].
+/// WCAG 2.1 relative luminance of [color] (**0.0**–**1.0**).
 ///
-/// Returns a value from **0.0** (black) through **1.0** (white), inclusive.
-double getLuminance(Color color) {
-  return 0.2126 * _linearizeChannel(color.red) +
-      0.7152 * _linearizeChannel(color.green) +
-      0.0722 * _linearizeChannel(color.blue);
-}
+/// Delegates to [Color.computeLuminance] (same WCAG linearization and weights).
+/// In debug mode, [Color.computeLuminance] asserts if [Color.colorSpace] is
+/// [ColorSpace.extendedSRGB].
+///
+/// [isLight] / [isDark] use luminance **> 0.179** (WCAG crossover for black vs
+/// white at 4.5:1), not [ThemeData.estimateBrightnessForColor], which follows
+/// Material’s separate threshold for theme brightness.
+double getLuminance(Color color) => color.computeLuminance();
 
 /// WCAG 2.1 contrast ratio from two relative luminances in the range **0.0–1.0**.
 ///
@@ -67,8 +64,10 @@ double getContrastRatio(Color foreground, Color background) {
 
 /// Returns `true` if [color] is perceptually light (luminance > 0.179).
 ///
-/// The threshold 0.179 is derived from the WCAG 2.1 standard and ensures
-/// that both black and white achieve at least a 4.5:1 contrast ratio.
+/// The threshold **0.179** is the WCAG 2.1 luminance crossover so black and
+/// white each reach at least **4.5:1** against the background. This is
+/// intentionally not [ThemeData.estimateBrightnessForColor], which uses
+/// Material’s brightness split for theming, not that WCAG guarantee.
 bool isLight(Color color) => getLuminance(color) > 0.179;
 
 /// Returns `true` if [color] is perceptually dark.

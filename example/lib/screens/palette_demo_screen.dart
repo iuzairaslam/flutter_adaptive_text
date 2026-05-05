@@ -1,4 +1,4 @@
-import 'package:adaptive_text/adaptive_text.dart';
+import 'package:flutter_adaptive_text/flutter_adaptive_text.dart';
 import 'package:flutter/material.dart';
 
 class PaletteDemoScreen extends StatefulWidget {
@@ -57,7 +57,8 @@ class _PaletteDemoScreenState extends State<PaletteDemoScreen> {
     final palette = _palettes[_activePalette]!;
     final chosen = getAdaptiveColor(_bg, palette: palette);
     final ratio = getContrastRatio(chosen, _bg);
-    final hex = '#${chosen.toARGB32().toRadixString(16).padLeft(8, '0').substring(2).toUpperCase()}';
+    final hex =
+        '#${chosen.toARGB32().toRadixString(16).padLeft(8, '0').substring(2).toUpperCase()}';
 
     return Scaffold(
       backgroundColor: _bg,
@@ -96,7 +97,8 @@ class _PaletteDemoScreenState extends State<PaletteDemoScreen> {
     );
   }
 
-  Widget _buildResultHero(Color adaptive, Color chosen, String hex, double ratio) {
+  Widget _buildResultHero(
+      Color adaptive, Color chosen, String hex, double ratio) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -175,7 +177,8 @@ class _PaletteDemoScreenState extends State<PaletteDemoScreen> {
     );
   }
 
-  Widget _buildPaletteSelector(Color adaptive, List<Color> palette, Color chosen) {
+  Widget _buildPaletteSelector(
+      Color adaptive, List<Color> palette, Color chosen) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -190,11 +193,10 @@ class _PaletteDemoScreenState extends State<PaletteDemoScreen> {
                 onTap: () => setState(() => _activePalette = name),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 150),
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
                   decoration: BoxDecoration(
-                    color: isActive
-                        ? adaptive
-                        : adaptive.withOpacity(0.1),
+                    color: isActive ? adaptive : adaptive.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -238,7 +240,8 @@ class _PaletteDemoScreenState extends State<PaletteDemoScreen> {
               ),
               alignment: Alignment.center,
               child: isChosen
-                  ? Icon(Icons.check_rounded, size: 16, color: c.adaptiveTextColor)
+                  ? Icon(Icons.check_rounded,
+                      size: 16, color: c.adaptiveTextColor)
                   : null,
             );
           }).toList(),
@@ -309,7 +312,8 @@ class _PaletteDemoScreenState extends State<PaletteDemoScreen> {
 }
 
 class _StatChip extends StatelessWidget {
-  const _StatChip({required this.bg, required this.label, required this.sublabel});
+  const _StatChip(
+      {required this.bg, required this.label, required this.sublabel});
   final Color bg;
   final String label;
   final String sublabel;

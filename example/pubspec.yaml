@@ -1,5 +1,5 @@
-name: adaptive_text_example
-description: Interactive demo for adaptive_text.
+name: flutter_adaptive_text_example
+description: Interactive demo for flutter_adaptive_text.
 publish_to: none
 version: 1.0.0
 
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  adaptive_text:
+  flutter_adaptive_text:
     path: ../
 
 dev_dependencies:

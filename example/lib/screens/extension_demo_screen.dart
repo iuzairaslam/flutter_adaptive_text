@@ -1,4 +1,4 @@
-import 'package:adaptive_text/adaptive_text.dart';
+import 'package:flutter_adaptive_text/flutter_adaptive_text.dart';
 import 'package:flutter/material.dart';
 
 class ExtensionDemoScreen extends StatefulWidget {
@@ -33,7 +33,8 @@ class _ExtensionDemoScreenState extends State<ExtensionDemoScreen> {
     final ratio = _bg.contrastRatioWith(textColor);
     final meetsAa = _bg.meetsWcagWith(textColor);
     final meetsAaa = _bg.meetsWcagWith(textColor, level: WcagLevel.aaa);
-    final hex = '#${textColor.toARGB32().toRadixString(16).padLeft(8, '0').substring(2).toUpperCase()}';
+    final hex =
+        '#${textColor.toARGB32().toRadixString(16).padLeft(8, '0').substring(2).toUpperCase()}';
 
     return Scaffold(
       backgroundColor: _bg,
@@ -161,7 +162,8 @@ class _ExtensionDemoScreenState extends State<ExtensionDemoScreen> {
     bool meetsAa,
     bool meetsAaa,
   ) {
-    final adaptiveLabel = _bg.adaptiveTextColor == Colors.white ? 'White' : 'Black';
+    final adaptiveLabel =
+        _bg.adaptiveTextColor == Colors.white ? 'White' : 'Black';
     final props = [
       _Prop('.adaptiveTextColor', adaptiveLabel, highlight: true),
       _Prop('.isLight', '${_bg.isLight}'),

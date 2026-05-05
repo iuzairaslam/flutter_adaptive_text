@@ -1,4 +1,4 @@
-package com.example.adaptive_text.adaptive_text_example
+package com.example.flutteradaptivetext.flutterAdaptiveTextExample
 
 import io.flutter.embedding.android.FlutterActivity
 

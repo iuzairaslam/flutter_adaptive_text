@@ -1,4 +1,4 @@
-import 'package:adaptive_text/adaptive_text.dart';
+import 'package:flutter_adaptive_text/flutter_adaptive_text.dart';
 import 'package:flutter/material.dart';
 
 class ApcaDemoScreen extends StatefulWidget {
@@ -12,9 +12,15 @@ class _ApcaDemoScreenState extends State<ApcaDemoScreen> {
   Color _bg = const Color(0xFF263238); // blue-grey 900
 
   static const List<Color> _swatches = [
-    Color(0xFF263238), Color(0xFF1A237E), Color(0xFF880E4F),
-    Color(0xFF000000), Color(0xFFFFFFFF), Color(0xFF4CAF50),
-    Color(0xFFF9A825), Color(0xFF00ACC1), Color(0xFF78909C),
+    Color(0xFF263238),
+    Color(0xFF1A237E),
+    Color(0xFF880E4F),
+    Color(0xFF000000),
+    Color(0xFFFFFFFF),
+    Color(0xFF4CAF50),
+    Color(0xFFF9A825),
+    Color(0xFF00ACC1),
+    Color(0xFF78909C),
   ];
 
   @override
@@ -33,7 +39,8 @@ class _ApcaDemoScreenState extends State<ApcaDemoScreen> {
         backgroundColor: _bg,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded, color: getAdaptiveColor(_bg)),
+          icon:
+              Icon(Icons.arrow_back_ios_rounded, color: getAdaptiveColor(_bg)),
           onPressed: () => Navigator.pop(context),
         ),
         title: AdaptiveText(
@@ -48,33 +55,45 @@ class _ApcaDemoScreenState extends State<ApcaDemoScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Swatch picker
-            AdaptiveText('Background:', backgroundColor: _bg,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+            AdaptiveText('Background:',
+                backgroundColor: _bg,
+                style:
+                    const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
             const SizedBox(height: 10),
             Wrap(
-              spacing: 8, runSpacing: 8,
-              children: _swatches.map((c) => GestureDetector(
-                onTap: () => setState(() => _bg = c),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 150),
-                  width: 36, height: 36,
-                  decoration: BoxDecoration(
-                    color: c, shape: BoxShape.circle,
-                    border: Border.all(
-                      color: c == _bg ? getAdaptiveColor(_bg) : Colors.transparent,
-                      width: 2.5,
-                    ),
-                    boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4)],
-                  ),
-                ),
-              )).toList(),
+              spacing: 8,
+              runSpacing: 8,
+              children: _swatches
+                  .map((c) => GestureDetector(
+                        onTap: () => setState(() => _bg = c),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 150),
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color: c,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: c == _bg
+                                  ? getAdaptiveColor(_bg)
+                                  : Colors.transparent,
+                              width: 2.5,
+                            ),
+                            boxShadow: const [
+                              BoxShadow(color: Colors.black26, blurRadius: 4)
+                            ],
+                          ),
+                        ),
+                      ))
+                  .toList(),
             ),
             const SizedBox(height: 28),
 
             // Side-by-side comparison
             Row(
               children: [
-                Expanded(child: _AlgoCard(
+                Expanded(
+                    child: _AlgoCard(
                   bg: _bg,
                   label: 'WCAG 2.1',
                   sublabel: 'Contrast ratio',
@@ -82,10 +101,13 @@ class _ApcaDemoScreenState extends State<ApcaDemoScreen> {
                   metricLabel: 'Ratio',
                   metricValue: '${wcagRatio.toStringAsFixed(1)}:1',
                   passBadge: wcagRatio >= 4.5 ? 'AA ✓' : 'Fails AA',
-                  passColor: wcagRatio >= 4.5 ? const Color(0xFF22C55E) : const Color(0xFFEF4444),
+                  passColor: wcagRatio >= 4.5
+                      ? const Color(0xFF22C55E)
+                      : const Color(0xFFEF4444),
                 )),
                 const SizedBox(width: 10),
-                Expanded(child: _AlgoCard(
+                Expanded(
+                    child: _AlgoCard(
                   bg: _bg,
                   label: 'APCA',
                   sublabel: 'Lc (perceptual)',
@@ -93,7 +115,9 @@ class _ApcaDemoScreenState extends State<ApcaDemoScreen> {
                   metricLabel: 'Lc',
                   metricValue: apcaLc.toStringAsFixed(1),
                   passBadge: apcaLc.abs() >= 60 ? 'Readable ✓' : 'Low Lc',
-                  passColor: apcaLc.abs() >= 60 ? const Color(0xFF22C55E) : const Color(0xFFEF4444),
+                  passColor: apcaLc.abs() >= 60
+                      ? const Color(0xFF22C55E)
+                      : const Color(0xFFEF4444),
                 )),
               ],
             ),
@@ -137,7 +161,8 @@ class _ApcaDemoScreenState extends State<ApcaDemoScreen> {
               decoration: BoxDecoration(
                 color: getAdaptiveColor(_bg).withOpacity(0.08),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: getAdaptiveColor(_bg).withOpacity(0.15)),
+                border:
+                    Border.all(color: getAdaptiveColor(_bg).withOpacity(0.15)),
               ),
               child: Text(
                 '// Opt-in to APCA\nAdaptiveText(\n  \'Hello\',\n  backgroundColor: myBg,\n  algorithm: ContrastAlgorithm.apca,\n)\n\n// Or with the function\ngetAdaptiveColor(myBg, algorithm: ContrastAlgorithm.apca);\n\n// Raw Lc value\ngetApcaContrast(textColor, bgColor);',
@@ -191,14 +216,22 @@ class _AlgoCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(color: adaptive, fontSize: 13, fontWeight: FontWeight.w800)),
-          Text(sublabel, style: TextStyle(color: adaptive.withOpacity(0.5), fontSize: 10)),
+          Text(label,
+              style: TextStyle(
+                  color: adaptive, fontSize: 13, fontWeight: FontWeight.w800)),
+          Text(sublabel,
+              style: TextStyle(color: adaptive.withOpacity(0.5), fontSize: 10)),
           const SizedBox(height: 12),
           // Sample text using this algo's color
-          Text('Sample text', style: TextStyle(color: textColor, fontSize: 14, fontWeight: FontWeight.w600)),
+          Text('Sample text',
+              style: TextStyle(
+                  color: textColor, fontSize: 14, fontWeight: FontWeight.w600)),
           const SizedBox(height: 10),
-          Text(metricLabel, style: TextStyle(color: adaptive.withOpacity(0.5), fontSize: 10)),
-          Text(metricValue, style: TextStyle(color: adaptive, fontSize: 18, fontWeight: FontWeight.w800)),
+          Text(metricLabel,
+              style: TextStyle(color: adaptive.withOpacity(0.5), fontSize: 10)),
+          Text(metricValue,
+              style: TextStyle(
+                  color: adaptive, fontSize: 18, fontWeight: FontWeight.w800)),
           const SizedBox(height: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -206,7 +239,11 @@ class _AlgoCard extends StatelessWidget {
               color: passColor.withOpacity(0.18),
               borderRadius: BorderRadius.circular(6),
             ),
-            child: Text(passBadge, style: TextStyle(color: passColor, fontSize: 10, fontWeight: FontWeight.w700)),
+            child: Text(passBadge,
+                style: TextStyle(
+                    color: passColor,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700)),
           ),
         ],
       ),
