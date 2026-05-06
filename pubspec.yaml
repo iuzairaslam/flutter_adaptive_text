@@ -1,9 +1,8 @@
 name: flutter_adaptive_text
 description: >-
-  Automatically picks a legible text color (black, white, or any palette color)
-  based on the background color. WCAG 2.1 AA/AAA + APCA support. Drop-in
-  AdaptiveText widget, Color extension, and standalone utility functions.
-version: 1.0.0
+  Picks legible text colors (black, white, or palette) from backgrounds using
+  WCAG 2.1 and APCA. AdaptiveText widget, Color extensions, and utilities.
+version: 1.0.1
 
 homepage: https://github.com/iuzairaslam/flutter_adaptive_text
 

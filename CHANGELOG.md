@@ -1,3 +1,7 @@
+## 1.0.1
+
+- Shorten `pubspec.yaml` `description` to meet pub.dev’s 180-character limit (restores full “valid pubspec” / convention points on analysis).
+
 ## 1.0.0
 
 - **Package name:** Published as **`flutter_adaptive_text`** — import `package:flutter_adaptive_text/flutter_adaptive_text.dart` (pub.dev: [`flutter_adaptive_text`](https://pub.dev/packages/flutter_adaptive_text)).
