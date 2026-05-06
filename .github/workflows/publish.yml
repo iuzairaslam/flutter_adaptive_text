@@ -1,0 +1,26 @@
+# Publishes to pub.dev when you push a version tag (e.g. v1.0.1).
+#
+# Prerequisite (one-time on pub.dev):
+#   Package → Admin → Automated publishing → Enable publishing from GitHub Actions
+#   - Repository: iuzairaslam/flutter_adaptive_text
+#   - Tag pattern: v{{version}}   ← must match the pattern below
+#
+# Release:
+#   Ensure pubspec.yaml version matches the tag, then:
+#     git tag v1.0.1 && git push origin v1.0.1
+#
+# Docs: https://dart.dev/tools/pub/automated-publishing
+
+name: Publish to pub.dev
+
+on:
+  push:
+    tags:
+      # Keep in sync with pub.dev Admin → tag pattern, e.g. v{{version}} → v1.0.1
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  publish:
+    permissions:
+      id-token: write # required for OIDC auth to pub.dev
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
